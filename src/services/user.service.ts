@@ -97,8 +97,12 @@ export class UserService implements UserInterface {
             }
         };
 
-        const users = await this.repository.user.findMany(queryUserArgs);
         const totalItems = await this.repository.user.count(countUserArgs);
+        if(totalItems <= 10) {
+            queryUserArgs.skip = 0;
+        };
+        
+        const users = await this.repository.user.findMany(queryUserArgs);
 
         const output: QueryUserOutput = {
             users: users.map((user) => {

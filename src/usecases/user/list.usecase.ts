@@ -1,5 +1,6 @@
 import { QueryUserOutput, UserInterface } from "src/domain/interfaces/user.interface";
 import { Usecase } from "../usecase";
+import { Injectable } from "@nestjs/common";
 
 
 
@@ -20,7 +21,7 @@ export type ListUserOutputDto = {
     totalItems: number;
     totalPages: number;
 };
-
+@Injectable()
 export class ListUserUsecase implements Usecase<ListUserInputDto, ListUserOutputDto> {
     
     constructor(private readonly userInterface: UserInterface) {};

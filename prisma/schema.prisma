@@ -9,19 +9,20 @@ datasource db {
 }
 
 model Contract {
-  id               String        @id
-  number           Int
-  local            String
-  phone            String
+  id               String        @id @map("id")
+  number           Int           @map("number")
+  local            String        @map("local")
+  phone            String        @map("phone")
+  observation String?
   phoneSecondary   String?
-  installationDate DateTime
-  installationHour String
-  products         String[]
-  price            Float
-  status           Status        @default(PENDENTE)
-  userId           String
-  createdAt        DateTime      @default(now())
-  updatedAt        DateTime
+  installationDate DateTime      @map("installationDate")
+  installationHour String        @map("installationHour")
+  products         String[]      @map("products")
+  price            Float         @map("price")
+  status           Status        @default(PENDENTE) @map("status")
+  userId           String        @map("userId")
+  createdAt        DateTime      @default(now()) @map("createdAt")
+  updatedAt        DateTime      @map("updatedAt")
   type             TypeContract?
   User             User          @relation(fields: [userId], references: [id])
 }
@@ -40,16 +41,16 @@ model Goals {
   user_id   String
   createdAt DateTime @default(now())
   updatedAt DateTime
-  User      User     @relation(fields: [user_id], references: [id])
+  user      User     @relation(fields: [user_id], references: [id])
 }
 
 model Notes {
-  id        String   @id
-  text      String
-  user_id   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime
-  User      User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  id        String   @id @map("id")
+  text      String   @map("text")
+  user_id   String   @map("user_id")
+  createdAt DateTime @default(now()) @map("createdAt")
+  updatedAt DateTime @map("updatedAt")
+  user      User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
 
 model OwnerTeam {
@@ -73,19 +74,19 @@ model Team {
 }
 
 model User {
-  id           String        @id
-  username     String        @unique
-  name         String
-  lastname     String
-  role         Role          @default(USER)
-  password     String
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime
+  id           String        @id @map("id")
+  username     String        @unique @map("username")
+  name         String        @map("name")
+  lastname     String        @map("lastname")
+  role         Role          @default(USER) @map("role")
+  password     String        @map("password")
+  createdAt    DateTime      @default(now()) @map("createdAt")
+  updatedAt    DateTime      @map("updatedAt")
   team_id      String?
   accessStatus AccessStatus? @default(ACTIVE)
-  Contract     Contract[]
-  Goals        Goals[]
-  Notes        Notes[]
+  contract     Contract[]
+  goals        Goals[]
+  notes        Notes[]
   OwnerTeam    OwnerTeam?
   Team         Team?         @relation(fields: [team_id], references: [id])
 }
