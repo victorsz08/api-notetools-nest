@@ -13,7 +13,6 @@ model Contract {
   number           Int           @map("number")
   local            String        @map("local")
   phone            String        @map("phone")
-  observation String?
   phoneSecondary   String?
   installationDate DateTime      @map("installationDate")
   installationHour String        @map("installationHour")
@@ -23,25 +22,9 @@ model Contract {
   userId           String        @map("userId")
   createdAt        DateTime      @default(now()) @map("createdAt")
   updatedAt        DateTime      @map("updatedAt")
-  type             TypeContract?
   User             User          @relation(fields: [userId], references: [id])
-}
 
-model Countries {
-  id        Int      @id @unique
-  country   String
-  uf        String
-  createdAt DateTime @default(now())
-  updatedAt DateTime
-}
-
-model Goals {
-  id        String   @id
-  goal      Float
-  user_id   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime
-  user      User     @relation(fields: [user_id], references: [id])
+  @@map("Contract")
 }
 
 model Notes {
@@ -51,26 +34,8 @@ model Notes {
   createdAt DateTime @default(now()) @map("createdAt")
   updatedAt DateTime @map("updatedAt")
   user      User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
-}
 
-model OwnerTeam {
-  owner_id  String   @unique
-  team_id   String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime
-  User      User     @relation(fields: [owner_id], references: [id], onDelete: Cascade)
-  Team      Team     @relation(fields: [team_id], references: [id])
-
-  @@id([owner_id, team_id])
-}
-
-model Team {
-  id        String     @id
-  name      String
-  createdAt DateTime   @default(now())
-  updatedAt DateTime
-  OwnerTeam OwnerTeam?
-  User      User[]
+  @@map("Notes")
 }
 
 model User {
@@ -82,13 +47,11 @@ model User {
   password     String        @map("password")
   createdAt    DateTime      @default(now()) @map("createdAt")
   updatedAt    DateTime      @map("updatedAt")
-  team_id      String?
   accessStatus AccessStatus? @default(ACTIVE)
   contract     Contract[]
-  goals        Goals[]
   notes        Notes[]
-  OwnerTeam    OwnerTeam?
-  Team         Team?         @relation(fields: [team_id], references: [id])
+
+  @@map("User")
 }
 
 enum AccessStatus {
