@@ -1,6 +1,7 @@
-import{ Module } from "@nestjs/common";
+import{ MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { PrismaService } from "src/database/prisma-service";
 import { UserInterface } from "src/domain/interfaces/user.interface";
+import { LoggerMiddleware } from "src/middlewares/auth.middleware";
 import { CreateUserController } from "src/presents/controllers/user/create.controller";
 import { FindUserController } from "src/presents/controllers/user/find.controller";
 import { ListUserController } from "src/presents/controllers/user/list.controller";
@@ -40,4 +41,16 @@ import { UpdateUserUsecase } from "src/usecases/user/update.usecase";
     ]
 })
 
-export class UserModule {};
+export class UserModule implements NestModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer
+            .apply(LoggerMiddleware)
+            .forRoutes(
+                CreateUserController,
+                FindUserController,
+                ListUserController,
+                UpdateUserController,
+                UpdatePasswordController,
+            )
+    };
+};

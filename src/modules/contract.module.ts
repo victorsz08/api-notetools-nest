@@ -1,6 +1,7 @@
-import { Module } from "@nestjs/common";
+import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { PrismaService } from "src/database/prisma-service";
 import { ContractInterface } from "src/domain/interfaces/contract.interface";
+import { LoggerMiddleware } from "src/middlewares/auth.middleware";
 import { CreateContractController } from "src/presents/controllers/contract/create.controller";
 import { DeleteContractController } from "src/presents/controllers/contract/delete.controller";
 import { FindContractController } from "src/presents/controllers/contract/find.controller";
@@ -47,4 +48,18 @@ import { UpdateContractUsecase } from "src/usecases/contract/update.usecase";
     ]
 })
 
-export class ContractModule {};
+export class ContractModule implements NestModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer
+            .apply(LoggerMiddleware)
+            .forRoutes(
+                CreateContractController,
+                ListContractController,
+                FindContractController,
+                UpdateContractController,
+                UpdateSchedulingController,
+                UpdateStatusController,
+                DeleteContractController
+            )
+    }
+};

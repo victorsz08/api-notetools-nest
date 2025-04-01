@@ -1,6 +1,7 @@
-import { Module } from "@nestjs/common";
+import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { PrismaService } from "src/database/prisma-service";
 import { NoteInterface } from "src/domain/interfaces/note.interface";
+import { LoggerMiddleware } from "src/middlewares/auth.middleware";
 import { CreateNoteController } from "src/presents/controllers/note/create.controller";
 import { DeleteNoteController } from "src/presents/controllers/note/delete.controller";
 import { FindNoteController } from "src/presents/controllers/note/find.controller";
@@ -40,4 +41,16 @@ import { UpdateNoteUsecase } from "src/usecases/note/update.usecase";
     ]
 })
 
-export class NoteModule {};
+export class NoteModule implements NestModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer
+            .apply(LoggerMiddleware)
+            .forRoutes(
+                CreateNoteController,
+                FindNoteController,
+                ListNoteController,
+                UpdateNoteController,
+                DeleteNoteController
+            )
+    }
+};

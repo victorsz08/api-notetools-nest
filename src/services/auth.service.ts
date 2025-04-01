@@ -23,7 +23,8 @@ export class AuthService implements AuthInterface {
         };
 
         const token = sign({
-            id: user.id
+            id: user.id,
+            roles: user.role
         }, process.env.JWT_SECRET || "01111", {
             expiresIn: "1d"
         });

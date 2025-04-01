@@ -4,6 +4,8 @@ import { UserModule } from './modules/user.module';
 import { ContractModule } from './modules/contract.module';
 import { NoteModule } from './modules/note.module';
 import { AuthModule } from './modules/auth.module';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from './middlewares/role.guard';
 
 
 @Module({
@@ -13,7 +15,13 @@ import { AuthModule } from './modules/auth.module';
     NoteModule,
     AuthModule
   ],
-  providers: [PrismaService],
+  providers: [
+    PrismaService,
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    }
+  ],
 })
 
 export class AppModule {}
