@@ -6,6 +6,7 @@ import { NoteModule } from './modules/note.module';
 import { AuthModule } from './modules/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './middlewares/role.guard';
+import { SecurityModule } from './modules/security.module';
 
 
 @Module({
@@ -13,7 +14,8 @@ import { RolesGuard } from './middlewares/role.guard';
     UserModule,
     ContractModule,
     NoteModule,
-    AuthModule
+    AuthModule,
+    SecurityModule
   ],
   providers: [
     PrismaService,
