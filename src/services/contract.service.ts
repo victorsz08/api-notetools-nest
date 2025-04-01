@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { Prisma, Status } from "@prisma/client";
-import { endOfDay, startOfDay, subDays } from "date-fns";
+import { addDays, endOfDay, startOfDay, subDays } from "date-fns";
 import { PrismaService } from "src/database/prisma-service";
 import { ContractEntity, StatusType } from "src/domain/entities/contract.entity";
 import { ContractInterface, QueryContractInput, QueryContractOutput } from "src/domain/interfaces/contract.interface";
@@ -119,43 +119,49 @@ export class ContractService implements ContractInterface {
 
          if(createdAtDateIn && createdAtDateOut) {
             queryArgs.where = {
+                ...queryArgs.where,
                 createdAt: {
-                    gte: startOfDay(createdAtDateIn),
-                    lte: subDays(endOfDay(createdAtDateOut), 1)
+                    gte: addDays(startOfDay(createdAtDateIn), 1),
+                    lte: addDays(endOfDay(createdAtDateOut), 1)
                 }
             };
 
             countArgs.where = {
+                ...countArgs.where,
                 createdAt: {
-                    gte: startOfDay(createdAtDateIn),
-                    lte: subDays(endOfDay(createdAtDateOut), 1)
+                    gte: addDays(startOfDay(createdAtDateIn), 1),
+                    lte: addDays(endOfDay(createdAtDateOut), 1)
                 }
             };
          };
 
          if(schedulingDateIn && schedulingDateOut) {
             queryArgs.where = {
+                ...queryArgs.where,
                 installationDate: {
-                    gte: startOfDay(schedulingDateIn),
-                    lte: subDays(endOfDay(schedulingDateOut), 1)
+                    gte: addDays(startOfDay(schedulingDateIn), 1),
+                    lte: addDays(endOfDay(schedulingDateOut), 1)
                 }
             };
 
             countArgs.where = {
+                ...countArgs.where,
                 installationDate: {
-                    gte: startOfDay(schedulingDateIn),
-                    lte: subDays(endOfDay(schedulingDateOut), 1)
+                    gte: addDays(startOfDay(schedulingDateIn), 1),
+                    lte: addDays(endOfDay(schedulingDateOut), 1)
                 }
             };
          };
 
          if(status) {
             queryArgs.where = {
-                status: status as Status
+                ...queryArgs.where,
+                status: status.toUpperCase() as Status
             };
 
             countArgs.where = {
-                status: status as Status
+                ...countArgs.where,
+                status: status.toUpperCase() as Status 
             };
          };
 
