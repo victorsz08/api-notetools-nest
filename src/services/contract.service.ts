@@ -44,7 +44,7 @@ export class ContractService implements ContractInterface {
             products: [],
             phone: contact,
             status: status as Status,
-            User: {
+            user: {
                 connect: {
                     id: userId
                 }
@@ -98,7 +98,7 @@ export class ContractService implements ContractInterface {
 
          const queryArgs: Prisma.ContractFindManyArgs = {
             where: {
-                User: {
+                user: {
                     id: userId
                 }
             },
@@ -111,7 +111,7 @@ export class ContractService implements ContractInterface {
 
          const countArgs: Prisma.ContractCountArgs = {
             where: {
-                User: {
+                user: {
                     id: userId
                 }
             }

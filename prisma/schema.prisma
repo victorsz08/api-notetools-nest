@@ -22,7 +22,7 @@ model Contract {
   userId           String        @map("userId")
   createdAt        DateTime      @default(now()) @map("createdAt")
   updatedAt        DateTime      @map("updatedAt")
-  User             User          @relation(fields: [userId], references: [id])
+  user             User          @relation(fields: [userId], references: [id])
 
   @@map("Contract")
 }

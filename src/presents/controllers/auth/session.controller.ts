@@ -11,7 +11,6 @@ export class AuthSessionController {
 
     @Get()
     async session(@Req() req: Request & { user: UserEntity }) {
-        console.log(req.user);
         const { id } = req.user;
         const user = await this.findUserUsecase.execute({ id });
 
