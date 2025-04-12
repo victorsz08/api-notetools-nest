@@ -29,6 +29,7 @@ model Contract {
 
 model Notes {
   id        String   @id @map("id")
+  title     String   @map("title")
   text      String   @map("text")
   user_id   String   @map("user_id")
   createdAt DateTime @default(now()) @map("createdAt")
